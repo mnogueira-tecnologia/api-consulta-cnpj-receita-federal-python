@@ -1,4 +1,4 @@
-```python
+
 import requests
 import time
 import json
@@ -399,4 +399,4 @@ print()
 print("=" * 70)
 print("PROCESSAMENTO FINALIZADO")
 print("=" * 70)
-```
+

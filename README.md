@@ -1,4 +1,4 @@
-# Integração da API CNPJ Receita Federal em Python – Consulta de CNPJ em tempo real
+# Integração da API CNPJ Receita Federal em Python
 
 Exemplo de integração em **Python** com a API de Consulta CNPJ da Receita Federal da **ArquivoNfe**, para obtenção automatizada de dados cadastrais de empresas brasileiras.
 

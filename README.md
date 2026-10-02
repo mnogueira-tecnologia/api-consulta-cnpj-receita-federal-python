@@ -1,43 +1,56 @@
-# Integração da API SINTEGRA em Python – Consulta de Inscrição Estadual em tempo real
+# Integração da API CNPJ Receita Federal em Python – Consulta de CNPJ em tempo real
 
-Exemplo de integração em **Python** com a API SINTEGRA da **ArquivoNFe**, para consulta de dados cadastrais por UF.
+Exemplo de integração em **Python** com a API de Consulta CNPJ da Receita Federal da **ArquivoNfe**, para obtenção automatizada de dados cadastrais de empresas brasileiras.
 
-A API permite realizar consultas utilizando **CNPJ, CPF ou Inscrição Estadual (IE)**, conforme a disponibilidade da consulta para cada UF.
+A API permite consultar informações de empresas por meio do **CNPJ**, com opção de incluir o Quadro de Sócios e Administradores (QSA).
+
+A integração utiliza processamento assíncrono por meio do `request_id`, permitindo enviar solicitações e consultar seus respectivos resultados posteriormente.
 
 ## 🔎 Palavras-chave
 
-* API SINTEGRA
-* Consulta SINTEGRA
-* SINTEGRA CCC
-* Consulta Inscrição Estadual
+* API Consulta CNPJ Python
+* API CNPJ Receita Federal
+* Consulta CNPJ Python
+* API Receita Federal
+* Consulta CNPJ em tempo real
+* API REST CNPJ
+* Integração Python API REST
+* Consulta dados cadastrais CNPJ
+* Consulta QSA
+* Consulta quadro societário
 * API Fiscal Brasil
-* Consulta CNPJ
-* Consulta CPF
-* Consulta Inscrição Estadual por API
+* Automação consulta CNPJ
 
 ## Benefícios
 
-✔ Consulta por CNPJ, CPF ou IE<br>
-✔ Dados cadastrais retornados pela API<br>
-✔ Integração simples via API REST<br>
+✔ Consulta de CNPJ com dados cadastrais<br>
+✔ Dados provenientes da base da Receita Federal<br>
+✔ Retorno de informações cadastrais e CNAE<br>
+✔ Opção de consulta do Quadro de Sócios e Administradores (QSA)<br>
+✔ Integração simples via API REST (JSON)<br>
 ✔ Processamento assíncrono utilizando `request_id`<br>
-✔ Exemplo prático de integração em Python
+✔ Exemplo prático de integração em Python<br>
+✔ Possibilidade de consultas individuais ou em lote
 
 ## Casos de uso
 
-✔ Validação cadastral antes da emissão de NF<br>
-✔ Conferência cadastral automática<br>
-✔ Verificação de informações de empresas e contribuintes<br>
+✔ Validação cadastral de clientes e fornecedores<br>
+✔ Conferência cadastral antes da emissão de notas fiscais<br>
+✔ Enriquecimento de bases de dados<br>
+✔ Processos de KYC (Know Your Customer)<br>
+✔ Automação fiscal e contábil<br>
 ✔ Integração com sistemas ERP e aplicações próprias<br>
-✔ Processos de KYC (Know Your Customer)
+✔ Automatização de processos de validação cadastral
 
 ## Diferenciais
 
-✔ Consulta dos dados cadastrais disponibilizados pela SEFAZ da UF consultada.<br>
+✔ Consulta de dados cadastrais da Receita Federal.<br>
+✔ Possibilidade de retorno do QSA e informações do Simples Nacional, conforme os dados disponibilizados pela API.<br>
 ✔ Comunicação segura por HTTPS.<br>
 ✔ Infraestrutura hospedada na Oracle Cloud no Brasil.<br>
+✔ API REST com retorno em JSON.<br>
 ✔ Painel web para configurações, consultas manuais e acompanhamento das integrações via API.<br>
-✔ API REST com suporte a consultas por CNPJ, CPF ou Inscrição Estadual.
+✔ Exemplo de integração utilizando Python e biblioteca `requests`.
 
 ---
 
@@ -71,7 +84,7 @@ Após o login no portal:
 
 > ⚠️ **Nunca publique seu token de acesso no GitHub.**
 
-No arquivo `consulta_sintegra.py`, informe seu token apenas localmente:
+No arquivo `consulta_cnpj_receita.py`, informe seu token apenas localmente:
 
 ```python
 TOKEN = 'SEU_TOKEN_AQUI'
@@ -149,13 +162,13 @@ Depois, extraia o arquivo em uma pasta do seu computador.
 Se o Git estiver instalado, execute:
 
 ```bash
-git clone https://github.com/mnogueira-tecnologia/api-sintegra-python.git
+git clone https://github.com/mnogueira-tecnologia/api-consulta-cnpj-receita-federal-python.git
 ```
 
 Depois acesse a pasta do projeto:
 
 ```bash
-cd api-sintegra-python
+cd api-consulta-cnpj-receita-federal-python
 ```
 
 ---
@@ -181,7 +194,7 @@ Ative o ambiente virtual:
 Após a ativação, o terminal deverá apresentar algo semelhante a:
 
 ```text
-(.venv) C:\Users\seu_usuario\api-sintegra-python>
+(.venv) C:\Users\seu_usuario\api-consulta-cnpj-receita-federal-python>
 ```
 
 #### Linux
@@ -226,72 +239,143 @@ pip show requests
 
 ### 7️⃣ Configure seu Token
 
-Abra o arquivo [`consulta_sintegra.py`](consulta_sintegra.py) e informe seu token de acesso:
+Abra o arquivo [`consulta_cnpj_receita.py`](consulta_cnpj_receita.py) e informe seu token de acesso:
 
 ```python
 TOKEN = 'SEU_TOKEN_AQUI'
 ```
 
-Por exemplo:
-
-```python
-TOKEN = '123456789abcdef'
-```
-
-> ⚠️ **O token acima é apenas um exemplo. Nunca utilize ou publique tokens reais no GitHub.**
+> ⚠️ O token acima é apenas um exemplo. Nunca utilize ou publique tokens reais no GitHub.
 
 Antes de executar o projeto, certifique-se de que o token esteja configurado corretamente.
 
 ---
 
-### 8️⃣ Execute o exemplo
+### 8️⃣ Configure os CNPJs para consulta
+
+No arquivo `consulta_cnpj_receita.py`, localize o array `consultas`.
+
+Exemplo:
+
+```python
+consultas = [
+    {
+        "cnpj": "00000000000191",
+        "qsa": 0,
+        "request_id": None
+    },
+    {
+        "cnpj": "33000167002317",
+        "qsa": 1,
+        "request_id": None
+    }
+]
+```
+
+Parâmetros:
+
+| Parâmetro    | Descrição                                                        |
+| ------------ | ---------------------------------------------------------------- |
+| `cnpj`       | CNPJ da empresa que será consultada                              |
+| `qsa`        | Indica se deve retornar o Quadro de Sócios e Administradores     |
+| `request_id` | Protocolo da solicitação, preenchido automaticamente pelo script |
+
+O parâmetro `qsa` aceita:
+
+* `0` – Não solicitar o QSA.
+* `1` – Solicitar o QSA.
+
+O script pode ser adaptado para recuperar os CNPJs diretamente de um banco de dados, permitindo a integração com sistemas próprios.
+
+---
+
+### 9️⃣ Execute o exemplo
 
 Com o ambiente virtual ativado e o token configurado, execute o script.
 
 #### Windows
 
 ```bash
-python consulta_sintegra.py
+python consulta_cnpj_receita.py
 ```
 
 #### Linux
 
 ```bash
-python3 consulta_sintegra.py
+python3 consulta_cnpj_receita.py
 ```
 
 O script realizará as consultas configuradas no exemplo e exibirá os resultados retornados pela API no terminal.
 
-O exemplo demonstra:
+O código demonstra:
 
-* envio de consultas por CNPJ, CPF ou Inscrição Estadual;
+* envio de consultas por CNPJ;
+* opção de consulta do QSA;
 * armazenamento do `request_id` (protocolo da consulta);
-* consulta dos resultados de forma assíncrona;
+* consulta posterior dos resultados;
 * novas tentativas quando a consulta ainda está em processamento;
 * tratamento das respostas da API;
 * exibição dos resultados em formato JSON.
 
 O código-fonte completo está disponível em:
 
-[`consulta_sintegra.py`](consulta_sintegra.py)
+[`consulta_cnpj_receita.py`](consulta_cnpj_receita.py)
+
+---
+
+## 🔄 Como funciona o processamento assíncrono
+
+A integração é realizada em duas etapas:
+
+**Etapa 1 – Envio da consulta**
+
+O script envia o CNPJ e o parâmetro opcional `qsa` para a API.
+
+A API retorna um `request_id`, que identifica a solicitação.
+
+**Etapa 2 – Obtenção do resultado**
+
+O script utiliza o `request_id` para consultar o resultado da solicitação.
+
+Caso o processamento ainda esteja em andamento, são realizadas novas tentativas, respeitando o intervalo e o limite configurados no exemplo.
+
+Quando o resultado estiver disponível, os dados são apresentados no terminal em formato JSON.
+
+Essa estrutura permite adaptar o exemplo para processamento em lote, aplicações empresariais e integração com bancos de dados.
 
 ---
 
 ## 📄 Exemplo de retorno da API
 
-O exemplo abaixo apresenta um retorno da API após a conclusão da consulta:
+Após a conclusão do processamento, a API disponibiliza os dados cadastrais da empresa em formato JSON, incluindo informações como:
 
-![Retorno JSON](teste_etapa1.png)
-![Retorno JSON](teste_etapa2.png)
-![Retorno JSON](teste_etapa3.png)
+* CNPJ
+* Razão social
+* Nome fantasia, quando disponível
+* Situação cadastral
+* Endereço
+* CNAE principal e secundários
+* Natureza jurídica
+* Informações do Simples Nacional, quando disponibilizadas
+* Quadro de Sócios e Administradores (QSA), quando solicitado e disponível
+
+A estrutura e os campos efetivamente retornados dependem dos dados disponibilizados pela Receita Federal e das opções da consulta.
 
 ---
 
 ## 🔗 Documentação da API
 
-Consulte a documentação completa da API SINTEGRA:
+Consulte a documentação completa da API CNPJ Receita Federal:
 
-https://www.arquivo-nfe.com/api-sintegra-ccc
+https://www.arquivo-nfe.com/api-de-consulta-cnpj-receita-federal
+
+**Endpoint:**
+
+```text
+POST https://api.arquivo-nfe.com/prod/cnpj_receita
+```
+
+Autenticação via Bearer Token.
 
 ---
 

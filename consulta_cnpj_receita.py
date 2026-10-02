@@ -35,12 +35,12 @@ HEADERS = {
 
 consultas = [
     {
-        "cnpj": "00000000000191",
+        "cnpj": "XXXXXXXXXXXXXX",
         "qsa": 0,
         "request_id": None
     },
     {
-        "cnpj": "33000167002317",
+        "cnpj": "XXXXXXXXXXXXXX",
         "qsa": 1,
         "request_id": None
     },

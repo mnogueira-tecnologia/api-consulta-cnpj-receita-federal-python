@@ -161,12 +161,7 @@ for numero, consulta in enumerate(consultas, start=1):
         request_id = dados.get("request_id")
 
         if request_id is None:
-
-            retorno = dados.get("retorno")
-
-            if isinstance(retorno, list) and len(retorno) > 0:
-
-                request_id = retorno[0].get("request_id")
+           request_id = dados.get("data", {}).get("request_id")
 
         if request_id is not None:
 
